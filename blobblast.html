@@ -1,0 +1,347 @@
+
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html> 
+<head>
+   <title>Blob Blast 2</title> 
+</head>
+<body>
+   <p align="center"> 
+     <canvas id="mycanvas"></canvas> 
+   </p>
+</body>
+
+<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+
+<script>
+   var sketchProc = function(processingInstance) {
+    with (processingInstance) {
+       size(800, 600); 
+       frameRate(60);
+      //Game
+      var speed = 10;
+      var cy = 300;
+       var bulletx = 800;
+       var by = cy;
+      var blobx = [800, 800, 800, 800, 800];
+      var bloby = [random(0, 600), random(0, 600), random(0, 600), random(0, 600), random(0, 600)];
+      var lives = 5;
+      var score = 0;
+      var f = createFont("impact");
+      var scene = 0;
+      var xp = 0;
+      var lvl = 0;
+      var blobSpeed1 = 2;
+      var blobSpeed2 = 1;
+      var menu = function(){
+        scene = 1;
+        draw = function(){
+          background(100, 100, 100);
+          fill(200, 200, 200);
+          textFont(f);
+          textSize(100);
+          text("B", 290, 150);
+          text("B", 290, 255);
+          textSize(50);
+          text("LOB", 350, 150);
+          text("LAST", 350, 215);
+          text("2", 350, 265);
+          fill(255, 0, 0);
+          textSize(25);
+          text("Click to play", 325, 400);
+          text("Game code by Future games", 10, 550);
+          text("Game design by kittyc/1caleb", 10, 580);
+        };
+      };
+      var gameover = function(){
+        scene = 2;
+        xp += score;
+        draw = function(){
+          background(100, 100, 100);
+          fill(200, 200, 200);
+          textFont(f);
+          textSize(50);
+          text("You Got " + score+" xp", 250, 300);
+          fill(255, 0, 0);
+          textSize(25);
+          text("Click to continue", 300, 450);
+          fill(200, 200, 200);
+          textFont(f);
+          textSize(50);
+          if(xp >= 100 && xp < 200){
+            lvl = 1;
+          }
+          if(xp >= 200 && xp < 300){
+            lvl = 2;
+          }
+          if(xp >= 300 && xp < 400){
+            lvl = 3;
+          }
+          if(xp >= 400 && xp < 500){
+            lvl = 4;
+          }
+          if(xp >= 500 && xp < 600){
+            lvl = 5;
+          }
+          if(xp >= 600 && xp < 700){
+            lvl = 6;
+          }
+          if(xp >= 700 && xp < 800){
+            lvl = 7;
+          }
+          if(xp >= 800 && xp < 900){
+            lvl = 8;
+          }
+          if(xp >= 900 && xp < 1000){
+            lvl = 9;
+          }
+          if(xp >= 1000 && xp < 1100){
+            lvl = 10;
+          }
+          //
+          if(xp >= 1100 && xp < 1200){
+            lvl = 11;
+          }
+          if(xp >= 1200 && xp < 1300){
+            lvl = 12;
+          }
+          if(xp >= 1300 && xp < 1400){
+            lvl = 13;
+          }
+          if(xp >= 1400 && xp < 1500){
+            lvl = 14;
+          }
+          if(xp >= 1500 && xp < 1600){
+            lvl = 15;
+          }
+          if(xp >= 1600 && xp < 1700){
+            lvl = 16;
+          }
+          if(xp >= 1700 && xp < 1800){
+            lvl = 17;
+          }
+          if(xp >= 1800 && xp < 1900){
+            lvl = 18;
+          }
+          if(xp >= 1900 && xp < 2000){
+            lvl = 19;
+          }
+          if(xp >= 2000){
+            lvl = 20;
+          }
+          if(lvl === 1){            
+            text("You are level "+lvl, 250, 350);
+            speed = 11;
+          }
+          if(lvl === 2){
+            text("You are level "+lvl, 250, 350);
+            speed = 12;
+          }
+          if(lvl === 3){
+            text("You are level "+lvl, 250, 350);
+            speed = 13;
+          }
+          if(lvl === 4){
+            text("You are level "+lvl, 250, 350);
+            speed = 14;
+          }
+          if(lvl === 5){
+            speed = 15;
+            text("You are level "+lvl, 250, 350);
+          }
+          if(lvl === 6){
+            text("You are level "+lvl, 250, 350);
+            speed = 16;
+          }
+          if(lvl === 7){
+            speed = 17;
+            text("You are level "+lvl, 250, 350);
+          }
+          if(lvl === 8){
+            text("You are level "+lvl, 250, 350);
+            speed = 18;
+          }
+          if(lvl === 9){
+            text("You are level "+lvl, 250, 350);
+            speed = 19;
+          }
+          if(lvl === 10){
+            speed = 20;
+            text("You are level "+lvl, 250, 350);
+          }
+          if(lvl === 11){            
+            text("You are level "+lvl, 250, 350);
+            speed = 21;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 12){
+            text("You are level "+lvl, 250, 350);
+            speed = 22;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 13){
+            text("You are level "+lvl, 250, 350);
+            speed = 23;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 14){
+            text("You are level "+lvl, 250, 350);
+            speed = 24;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 15){
+            speed = 25;
+            text("You are level "+lvl, 250, 350);
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 16){
+            text("You are level "+lvl, 250, 350);
+            speed = 26;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 17){
+            speed = 27;
+            text("You are level "+lvl, 250, 350);
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 18){
+            text("You are level "+lvl, 250, 350);
+            speed = 28;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 19){
+            text("You are level "+lvl, 250, 350);
+            speed = 29;
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+          if(lvl === 20){
+            speed = 30;
+            text("You are level "+lvl, 250, 350);
+            blobSpeed1 = 3;
+            blobSpeed2 = 2;
+          }
+        };
+      };
+      var game = function(){
+        scene = 3;
+      draw = function(){
+         background(100, 100, 100);
+         fill(150, 150, 150);
+         rectMode(CENTER);
+         noStroke();
+         rect(20, cy, 75, 25);
+         fill(255, 0, 0);
+         ellipse(bulletx, by, 25, 25);
+        fill(100, 255, 100);
+        rect(blobx[0], bloby[0], 75, 75);
+        rect(blobx[1], bloby[1], 75, 75);
+        rect(blobx[2], bloby[2], 75, 75);
+        rect(blobx[3], bloby[3], 75, 75);
+        rect(blobx[4], bloby[4], 75, 75);
+        blobx[0] -= blobSpeed1;
+        blobx[1] -= blobSpeed2;
+        blobx[2] -= blobSpeed1;
+        blobx[3] -= blobSpeed2;
+        blobx[4] -= blobSpeed1;
+        fill(255, 255, 255);
+        textFont(f);
+        textSize(25);
+        text("Lives: "+lives, 690, 50);
+        text("Score: "+score, 25, 50);
+        if(blobx[0] <= 0){
+          blobx[0] = 800;
+          bloby[0] = random(0, 600);
+          lives--;
+        }
+        if(blobx[1] <= 0){
+          blobx[1] = 800;
+          bloby[1] = random(0, 600);
+          lives--;
+        }
+        if(blobx[2] <= 0){
+          blobx[2] = 800;
+          bloby[2] = random(0, 600);
+          lives--;
+        }
+        if(blobx[3] <= 0){
+          blobx[3] = 800;
+          bloby[3] = random(0, 600);
+          lives--;
+        }
+        if(blobx[4] <= 0){
+           blobx[4] = 800;
+          bloby[4] = random(0, 600);
+          lives--;
+        }
+        if(lives <= 0){
+          gameover();
+        }
+        if(bulletx > blobx[0] - 37 && bulletx < blobx[0] + 37 && by > bloby[0] - 37 && by < bloby[0] + 37){
+          blobx[0] = 800;
+          bloby[0] = random(0, 600);
+          score += 5;
+        }
+        if(bulletx > blobx[1] - 37 && bulletx < blobx[1] + 37 && by > bloby[1] - 37 && by < bloby[1] + 37){
+          blobx[1] = 800;
+          bloby[1] = random(0, 600);
+          score += 5;
+        }
+        if(bulletx > blobx[2] - 37 && bulletx < blobx[2] + 37 && by > bloby[2] - 37 && by < bloby[2] + 37){
+          blobx[2] = 800;
+          bloby[2] = random(0, 600);
+          score += 5;
+        }
+        if(bulletx > blobx[3] - 37 && bulletx < blobx[3] + 37 && by > bloby[3] - 37 && by < bloby[3] + 37){
+          blobx[3] = 800;
+          bloby[3] = random(0, 600);
+          score += 5;
+        }
+        if(bulletx > blobx[4] - 37 && bulletx < blobx[4] + 37 && by > bloby[4] - 37 && by < bloby[4] + 37){
+          blobx[4] = 800;
+          bloby[4] = random(0, 600);
+          score += 5;
+        }
+         if(keyPressed && keyCode === 38 && cy > 0){
+           cy -= 4;
+           //by -= 3;
+         }
+         if(keyPressed && keyCode === 40 && cy < 600){
+           cy += 4;
+           //by += 3;
+         }
+           bulletx += speed;
+         if(bulletx >= 800){
+           bulletx = -15;
+           by = cy;
+         }
+      };
+      };
+      menu();
+      mouseClicked = function(){
+        if(scene === 1){
+          game();
+          lives = 3;
+          score = 0;
+          blobx = [800, 800, 800, 800, 800];
+          bloby = [random(0, 600), random(0, 600), random(0, 600), random(0, 600), random(0, 600)];
+        }
+        if(scene === 2){
+          menu();
+        }
+      };
+        //end game
+   }};
+
+   var canvas = document.getElementById("mycanvas"); 
+   var processingInstance = new Processing(canvas, sketchProc); 
+</script>
+</html>
